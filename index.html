@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Das magische Abenteuer</title>
+    <title>The Adventure of the Speckled Band</title>
     <style>
         * {
             margin: 0;
@@ -14,6 +14,8 @@
         body {
             font-family: 'Georgia', serif;
             overflow-x: hidden;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
         }
 
         .container {
@@ -31,11 +33,11 @@
             z-index: 1000;
             display: flex;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.8);
             padding: 10px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .lang-btn {
@@ -47,21 +49,21 @@
             border: 2px solid transparent;
             padding: 8px 12px;
             user-select: none;
-            background: rgba(255, 255, 255, 0.8);
-            color: #2c3e50;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
             min-width: 32px;
             text-align: center;
         }
 
         .lang-btn:hover {
             transform: scale(1.05);
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .lang-btn.active {
-            border-color: #4a90e2;
-            background: #4a90e2;
+            border-color: #8b5a2b;
+            background: #8b5a2b;
             color: white;
             transform: scale(1.05);
         }
@@ -71,7 +73,7 @@
             position: sticky;
             top: 0;
             height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -81,7 +83,7 @@
 
         .visual-content {
             text-align: center;
-            color: white;
+            color: #d4af37;
             padding: 40px;
             transform: scale(1);
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -95,19 +97,20 @@
         .visual-icon {
             font-size: 120px;
             margin-bottom: 20px;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
 
         .visual-title {
             font-size: 2.2em;
             font-weight: bold;
             margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .text-section {
             flex: 1;
             background-color: #f8f6f0;
+            color: #2c1810;
             padding: 80px 60px 60px;
             position: relative;
             height: 100vh;
@@ -118,13 +121,12 @@
             margin-bottom: 100px;
             line-height: 1.8;
             font-size: 1.1em;
-            color: #2c3e50;
             opacity: 1;
         }
 
         .chapter-title {
             font-size: 2.5em;
-            color: #34495e;
+            color: #8b5a2b;
             margin-bottom: 30px;
             text-align: center;
             font-weight: bold;
@@ -177,6 +179,8 @@
                 width: 100%;
                 padding: 40px 30px;
                 background: linear-gradient(to bottom, transparent 0%, #f8f6f0 20%, #f8f6f0 100%);
+                height: auto;
+                overflow-y: visible;
             }
 
             .chapter-title {
@@ -198,30 +202,48 @@
 
         /* Chapter-specific visual styles */
         .visual-chapter-1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('./chapter 1 visual.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .visual-chapter-2 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background-image: url('./chapter 2 visual.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .visual-chapter-3 {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background-image: url('./chapter 3 visual.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .visual-chapter-4 {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        /* Add overlay for better text readability */
+        .visual-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
 
-        .visual-chapter-5 {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        .visual-content {
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
 <body>
     <div class="language-switcher">
-        <button class="lang-btn active" data-lang="de">DE</button>
-        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="de">DE</button>
         <button class="lang-btn" data-lang="es">ES</button>
         <button class="lang-btn" data-lang="fr">FR</button>
     </div>
@@ -229,74 +251,124 @@
     <div class="container">
         <div class="visual-section visual-chapter-1" id="visualSection">
             <div class="visual-content" id="visualContent">
-                <div class="visual-icon">🌟</div>
-                <div class="visual-title" id="visualTitle">Der magische Wald</div>
+                <div class="visual-icon">🌅</div>
+                <div class="visual-title" id="visualTitle">The Beginning</div>
             </div>
         </div>
 
         <div class="text-section" id="textSection">
             <div class="chapter" id="chapter-1">
-                <h2 class="chapter-title" id="chapter-1-title">Kapitel 1: Der magische Wald</h2>
-                <div class="chapter-content" id="chapter-1-content">
-                    <p>Es war einmal ein kleines Mädchen namens Luna, das in einem Dorf am Rande eines großen, geheimnisvollen Waldes lebte. Die Dorfbewohner erzählten sich Geschichten über diesen Wald – Geschichten von sprechenden Tieren, glitzernden Pflanzen und magischen Kreaturen, die nur bei Mondschein zu sehen waren.</p>
-                    
-                    <p>Luna war acht Jahre alt und sehr neugierig. Jeden Tag schaute sie aus ihrem Fenster und betrachtete die hohen Bäume, die wie Wächter vor dem Dorf standen. Ihre Großmutter hatte ihr oft erzählt, dass der Wald voller Wunder sei, aber auch voller Geheimnisse, die nur die Mutigsten entdecken könnten.</p>
-                    
-                    <p>An einem warmen Sommerabend, als der Vollmond hell am Himmel strahlte, beschloss Luna, endlich herauszufinden, ob die Geschichten wahr waren. Sie packte ihre kleine Laterne, zog ihre warme Jacke an und schlich sich leise aus dem Haus, während ihre Eltern schliefen.</p>
-                    
-                    <p>Als sie den Waldrand erreichte, bemerkte sie sofort, dass etwas anders war. Die Blätter der Bäume schimmerten silbern im Mondlicht, und ein sanftes Summen lag in der Luft. Luna spürte, wie ihr Herz vor Aufregung schneller schlug.</p>
+                <h2 class="chapter-title">The Beginning</h2>
+                <div class="chapter-content">
+                    <p>On glancing over my notes of the seventy-odd cases in which I have during the last eight years studied the methods of my friend Sherlock Holmes, I find many tragic, some comic, a large number merely strange, but none commonplace; for, working as he did rather for the love of his art than for the acquirement of wealth, he refused to associate himself with any investigation which did not tend towards the unusual, and even the fantastic. Of all these varied cases, however, I cannot recall any which presented more singular features than that which was associated with the well-known Surrey family of the Roylotts of Stoke Moran. The events in question occurred in the early days of my association with Holmes, when we were sharing rooms as bachelors in Baker Street. It is possible that I might have placed them upon record before, but a promise of secrecy was made at the time, from which I have only been freed during the last month by the untimely death of the lady to whom the pledge was given. It is perhaps as well that the facts should now come to light, for I have reasons to know that there are widespread rumours as to the death of Dr. Grimesby Roylott which tend to make the matter even more terrible than the truth.</p>
+
+                    <p>It was early in April in the year '83 that I woke one morning to find Sherlock Holmes standing, fully dressed, by the side of my bed. He was a late riser, as a rule, and as the clock on the mantelpiece showed me that it was only a quarter-past seven, I blinked up at him in some surprise, and perhaps just a little resentment, for I was myself regular in my habits.</p>
+
+                    <p>"Very sorry to knock you up, Watson," said he, "but it's the common lot this morning. Mrs. Hudson has been knocked up, she retorted upon me, and I on you."</p>
+
+                    <p>"What is it, then—a fire?"</p>
+
+                    <p>"No; a client. It seems that a young lady has arrived in a considerable state of excitement, who insists upon seeing me. She is waiting now in the sitting-room. Now, when young ladies wander about the metropolis at this hour of the morning, and knock sleepy people up out of their beds, I presume that it is something very pressing which they have to communicate. Should it prove to be an interesting case, you would, I am sure, wish to follow it from the outset. I thought, at any rate, that I should call you and give you the chance."</p>
+
+                    <p>"My dear fellow, I would not miss it for anything."</p>
+
+                    <p>I had no keener pleasure than in following Holmes in his professional investigations, and in admiring the rapid deductions, as swift as intuitions, and yet always founded on a logical basis with which he unravelled the problems which were submitted to him. I rapidly threw on my clothes and was ready in a few minutes to accompany my friend down to the sitting-room. A lady dressed in black and heavily veiled, who had been sitting in the window, rose as we entered.</p>
+
+                    <p>"Good-morning, madam," said Holmes cheerily. "My name is Sherlock Holmes. This is my intimate friend and associate, Dr. Watson, before whom you can speak as freely as before myself. Ha! I am glad to see that Mrs. Hudson has had the good sense to light the fire. Pray draw up to it, and I shall order you a cup of hot coffee, for I observe that you are shivering."</p>
+
+                    <p>"It is not cold which makes me shiver," said the woman in a low voice, changing her seat as requested.</p>
+
+                    <p>"What, then?"</p>
+
+                    <p>"It is fear, Mr. Holmes. It is terror." She raised her veil as she spoke, and we could see that she was indeed in a pitiable state of agitation, her face all drawn and grey, with restless frightened eyes, like those of some hunted animal. Her features and figure were those of a woman of thirty, but her hair was shot with premature grey, and her expression was weary and haggarded. Sherlock Holmes ran her over with one of his quick, all-comprehensive glances.</p>
+
+                    <p>"You must not fear," said he soothingly, bending forward and patting her forearm. "We shall soon set matters right, I have no doubt. You have come in by train this morning, I see."</p>
+
+                    <p>"You know me, then?"</p>
+
+                    <p>"No, but I observe the second half of a return ticket in the palm of your left glove. You must have started early, and yet you had a good drive in a dog-cart, along heavy roads, before you reached the station."</p>
+
+                    <p>The lady gave a violent start and stared in bewilderment at my companion.</p>
+
+                    <p>"There is no mystery, my dear madam," said he, smiling. "The left arm of your jacket is spattered with mud in no less than seven places. The marks are perfectly fresh. There is no vehicle save a dog-cart which throws up mud in that way, and then only when you sit on the left-hand side of the driver."</p>
+
+                    <p>"Whatever your reasons may be, you are perfectly correct," said she. "I started from home before six, reached Leatherhead at twenty past, and came in by the first train to Waterloo. Sir, I can stand this strain no longer; I shall go mad if it continues. I have no one to turn to—none, save only one, who cares for me, and he, poor fellow, can be of little aid. I have heard of you, Mr. Holmes; I have heard of you from Mrs. Farintosh, whom you helped in the hour of her sore need. It was from her that I had your address. Oh, sir, do you not think that you could help me, too, and at least throw a little light through the dense darkness which surrounds me? At present it is out of my power to reward you for your services, but in a month or six weeks I shall be married, with the control of my own income, and then at least you shall not find me ungrateful."</p>
                 </div>
             </div>
 
             <div class="chapter" id="chapter-2">
-                <h2 class="chapter-title" id="chapter-2-title">Kapitel 2: Die sprechende Eule</h2>
-                <div class="chapter-content" id="chapter-2-content">
-                    <p>Kaum hatte Luna den ersten Schritt in den Wald getan, hörte sie eine melodische Stimme von oben: "Wer wagt es, zu dieser Stunde in unseren Wald zu kommen?" Luna blickte nach oben und sah eine wunderschöne Eule mit goldenen Federn auf einem Ast sitzen.</p>
+                <h2 class="chapter-title">The Client</h2>
+                <div class="chapter-content">
+                    <p>Holmes turned to his desk and, unlocking it, drew out a small case-book, which he consulted.</p>
                     
-                    <p>"Ich bin Luna", sagte sie mutig, obwohl ihre Stimme leicht zitterte. "Ich möchte die Geheimnisse des Waldes entdecken." Die Eule neigte ihren Kopf und betrachtete das Mädchen mit ihren großen, weisen Augen.</p>
-                    
-                    <p>"Ich bin Sophia, die Hüterin der Waldgeheimnisse", erklärte die Eule. "Viele Menschen kommen hierher auf der Suche nach Magie, aber nur wenige haben ein reines Herz. Erzähl mir, Luna, warum suchst du die Magie?"</p>
-                    
-                    <p>Luna dachte einen Moment nach. "Ich möchte verstehen, wie wunderbar die Welt sein kann", antwortete sie ehrlich. "Und vielleicht kann ich lernen, anderen zu helfen." Sophia lächelte – oder zumindest glaubte Luna, ein Lächeln in den Augen der Eule zu sehen.</p>
+                    <p>"Farintosh," said he. "Ah yes, I recall the case; it was concerned with an opal tiara. I think it was before your time, Watson. I can only say, madam, that I shall be happy to devote the same care to your case as I did to that of your friend. As to reward, my profession is its own reward; but you are at liberty to defray whatever expenses I may be put to, at the time which suits you best. And now I beg that you will lay before us everything that may help us in forming an opinion upon the matter."</p>
+
+                    <p>"Alas!" replied our visitor, "the very horror of my situation lies in the fact that my fears are so vague, and my suspicions depend so entirely upon small points, which might seem trivial to another, that even he to whom of all others I have a right to look for help and advice looks upon all that I tell him about it as the fancies of a nervous woman. He does not say so, but I can read it from his soothing answers and averted eyes. But I have heard, Mr. Holmes, that you can see deeply into the manifold wickedness of the human heart. You may advise me how to walk amid the dangers which encompass me."</p>
+
+                    <p>"I am all attention, madam."</p>
+
+                    <p>"My name is Helen Stoner, and I am living with my stepfather, who is the last survivor of one of the oldest Saxon families in England, the Roylotts of Stoke Moran, on the western border of Surrey."</p>
+
+                    <p>Holmes nodded his head. "The name is familiar to me," said he.</p>
+
+                    <p>"The family was at one time among the richest in England, and the estates extended over the borders into Berkshire in the north, and Hampshire in the west. In the last century, however, four successive heirs were of a dissolute and wasteful disposition, and the family ruin was eventually completed by a gambler in the days of the Regency. Nothing was left save a few acres of ground, and the two-hundred-year-old house, which is itself crushed under a heavy mortgage. The last squire dragged out his existence there, living the horrible life of an aristocratic pauper; but his only son, my stepfather, seeing that he must adapt himself to the new conditions, obtained an advance from a relative, which enabled him to take a medical degree and went out to Calcutta, where, by his professional skill and his force of character, he established a large practice. In a fit of anger, however, caused by some robberies which had been perpetrated in the house, he beat his native butler to death and narrowly escaped a capital sentence. As it was, he suffered a long term of imprisonment and afterwards returned to England a morose and disappointed man.</p>
+
+                    <p>"When Dr. Roylott was in India he married my mother, Mrs. Stoner, the young widow of Major-General Stoner, of the Bengal Artillery. My sister Julia and I were twins, and we were only two years old at the time of my mother's re-marriage. She had a considerable sum of money—not less than £1000 a year—and this she bequeathed to Dr. Roylott entirely while we resided with him, with a provision that a certain annual sum should be allowed to each of us in the event of our marriage. Shortly after our return to England my mother died—she was killed eight years ago in a railway accident near Crewe. Dr. Roylott then abandoned his attempts to establish himself in practice in London and took us to live with him in the old ancestral house at Stoke Moran. The money which my mother had left was enough for all our wants, and there seemed to be no obstacle to our happiness.</p>
+
+                    <p>"But a terrible change came over our stepfather about this time. Instead of making friends and exchanging visits with our neighbours, who had at first been overjoyed to see a Roylott of Stoke Moran back in the old family seat, he shut himself up in his house and seldom came out save to indulge in ferocious quarrels with whoever might cross his path. Violence of temper approaching to mania has been hereditary in the men of the family, and in my stepfather's case it had, I believe, been intensified by his long residence in the tropics. A series of disgraceful brawls took place, two of which ended in the police-court, until at last he became the terror of the village, and the folks would fly at his approach, for he is a man of immense strength, and absolutely uncontrollable in his anger.</p>
+
+                    <p>"Last week he hurled the local blacksmith over a parapet into a stream, and it was only by paying over all the money which I could gather together that I was able to avert another public exposure. He had no friends at all save the wandering gypsies, and he would give these vagabonds leave to encamp upon the few acres of bramble-covered land which represent the family estate, and would accept in return the hospitality of their tents, wandering away with them sometimes for weeks on end. He has a passion also for Indian animals, which are sent over to him by a correspondent, and he has at this moment a cheetah and a baboon, which wander freely over his grounds and are feared by the villagers almost as much as their master.</p>
+
+                    <p>"You can imagine from what I say that my poor sister Julia and I had no great pleasure in our lives. No servant would stay with us, and for a long time we did all the work of the house. She was but thirty at the time of her death, and yet her hair had already begun to whiten, even as mine has."</p>
+
+                    <p>"Your sister is dead, then?"</p>
+
+                    <p>"She died just two years ago, and it is of her death that I wish to speak to you. You can understand that, living the life which I have described, we were little likely to see anyone of our own age and position. We had, however, an aunt, my mother's maiden sister, Miss Honoria Westphail, who lives near Harrow, and we were occasionally allowed to pay short visits at this lady's house. Julia went there at Christmas two years ago, and met there a half-pay major of marines, to whom she became engaged. My stepfather learned of the engagement when my sister returned and offered no objection to the marriage; but within a fortnight of the day which had been fixed for the wedding, the terrible event occurred which has deprived me of my only companion."</p>
+
+                    <p>Sherlock Holmes had been leaning back in his chair with his eyes closed and his head sunk in a cushion, but he half opened his lids now and glanced across at his visitor.</p>
+
+                    <p>"Pray be precise as to details," said he.</p>
                 </div>
             </div>
 
             <div class="chapter" id="chapter-3">
-                <h2 class="chapter-title" id="chapter-3-title">Kapitel 3: Der Kristallsee</h2>
-                <div class="chapter-content" id="chapter-3-content">
-                    <p>"Folge mir", sagte Sophia und breitete ihre prächtigen Flügel aus. Sie flog langsam voraus, damit Luna ihr zu Fuß folgen konnte. Der Pfad führte tiefer in den Wald hinein, vorbei an Bäumen, deren Rinde in sanften Farben leuchtete.</p>
-                    
-                    <p>Nach einer Weile erreichten sie eine Lichtung, in deren Mitte ein wunderschöner See lag. Das Wasser war so klar wie Kristall und reflektierte nicht nur den Mond, sondern auch Sterne, die Luna noch nie zuvor gesehen hatte. "Das ist der Kristallsee", erklärte Sophia. "Er zeigt die Träume und Wünsche aller, die reinen Herzens sind."</p>
-                    
-                    <p>Luna kniete sich an den Rand des Sees und blickte hinein. Zuerst sah sie nur ihr eigenes Spiegelbild, aber dann begannen sich Bilder zu formen. Sie sah sich selbst, wie sie kranken Tieren half, wie sie traurige Kinder zum Lachen brachte und wie sie ihrer Großmutter dabei half, den Garten zu pflegen.</p>
-                    
-                    <p>"Du hast wirklich ein besonderes Herz", sagte Sophia anerkennend. "Der See zeigt mir, dass du würdig bist, das größte Geheimnis des Waldes zu erfahren."</p>
-                </div>
-            </div>
+                <h2 class="chapter-title">The Speckled Band</h2>
+                <div class="chapter-content">
+                    <p>"It is easy for me to be so, for every event of that dreadful time is seared into my memory. The manor-house is, as I have already said, very old, and only one wing is now inhabited. The bedrooms in this wing are on the ground floor, the sitting-rooms being in the central block of the buildings. Of these bedrooms the first is Dr. Roylott's, the second my sister's, and the third my own. There is no communication between them, but they all open out into the same corridor. Do I make myself plain?"</p>
 
-            <div class="chapter" id="chapter-4">
-                <h2 class="chapter-title" id="chapter-4-title">Kapitel 4: Das Geheimnis der Bäume</h2>
-                <div class="chapter-content" id="chapter-4-content">
-                    <p>Sophia führte Luna zu einem besonders alten und großen Baum am Rande der Lichtung. "Das ist der Herzbaum unseres Waldes", erklärte sie. "Er ist tausende Jahre alt und hütet die größte Magie von allen." Der Baum war so groß, dass Luna seinen Wipfel nicht sehen konnte, und seine Rinde schimmerte in allen Farben des Regenbogens.</p>
-                    
-                    <p>"Lege deine Hand auf seine Rinde", flüsterte Sophia. Luna tat wie geheißen und spürte sofort eine warme Energie durch ihren Körper fließen. Plötzlich konnte sie die Stimmen aller Lebewesen im Wald hören – die Blumen flüsterten sich Geheimnisse zu, die Käfer erzählten sich Witze, und die Bäume sangen leise Lieder.</p>
-                    
-                    <p>"Das ist die wahre Magie", erklärte Sophia. "Die Fähigkeit, mit allem Leben in Verbindung zu stehen und zu verstehen, dass wir alle miteinander verbunden sind. Diese Gabe wird dir helfen, anderen zu helfen und die Welt ein bisschen besser zu machen."</p>
-                    
-                    <p>Luna spürte, wie sich etwas in ihr veränderte. Sie fühlte sich mit dem ganzen Wald, ja mit der ganzen Welt verbunden. "Werde ich diese Gabe behalten?", fragte sie hoffnungsvoll.</p>
-                </div>
-            </div>
+                    <p>"Perfectly so."</p>
 
-            <div class="chapter" id="chapter-5">
-                <h2 class="chapter-title" id="chapter-5-title">Kapitel 5: Die Rückkehr nach Hause</h2>
-                <div class="chapter-content" id="chapter-5-content">
-                    <p>"Die Magie wird immer in dir sein", versicherte Sophia. "Aber sie wird nur dann stark sein, wenn du sie für gute Zwecke einsetzt. Hilf anderen, sei freundlich zu allen Lebewesen, und die Magie wird wachsen."</p>
-                    
-                    <p>Als der erste Sonnenstrahl durch die Bäume brach, wusste Luna, dass es Zeit war, nach Hause zu gehen. Sophia begleitete sie zum Waldrand, und alle Tiere des Waldes kamen, um sich zu verabschieden. Ein Reh berührte sanft ihre Hand, ein Schmetterling setzte sich auf ihre Schulter, und sogar die Blumen schienen sich zu ihr zu neigen.</p>
-                    
-                    <p>Zuhause angekommen, fand Luna ihre Eltern noch schlafend vor. Sie schlich sich leise in ihr Bett und dachte über das wunderbare Abenteuer nach. Als sie am nächsten Morgen aufwachte, fragte sie sich, ob alles nur ein Traum gewesen war.</p>
-                    
-                    <p>Aber dann hörte sie das leise Zwitschern der Vögel vor ihrem Fenster – und sie konnte verstehen, was sie sagten. Sie lächelte und wusste, dass das größte Abenteuer ihres Lebens gerade erst begonnen hatte. Von diesem Tag an half Luna allen Lebewesen, denen sie begegnete, und der magische Wald blieb für immer ihr besonderer, geheimer Ort.</p>
+                    <p>"The windows of the three rooms open out upon the lawn. That fatal night Dr. Roylott had gone to his room early, though we knew that he had not retired to rest, for my sister was troubled by the smell of the strong Indian cigars which it was his custom to smoke. She left her room, therefore, and came into mine, where she sat for some time, chatting about her approaching wedding. At eleven o'clock she rose to leave me, but she paused at the door and looked back.</p>
+
+                    <p>"'Tell me, Helen,' said she, 'have you ever heard anyone whistle in the dead of the night?'</p>
+
+                    <p>"'Never,' said I.</p>
+
+                    <p>"'I suppose that you could not possibly whistle, yourself, in your sleep?'</p>
+
+                    <p>"'Certainly not. But why?'</p>
+
+                    <p>"'Because during the last few nights I have always, about three in the morning, heard a low, clear whistle. I am a light sleeper, and it has awakened me. I cannot tell where it came from—perhaps from the next room, perhaps from the lawn. I thought that I would just ask you whether you had heard it.'</p>
+
+                    <p>"'No, I have not. It must be those wretched gipsies in the plantation.'</p>
+
+                    <p>"'Very likely. And yet if it were on the lawn, I wonder that you did not hear it also.'</p>
+
+                    <p>"'Ah, but I sleep more heavily than you.'</p>
+
+                    <p>"'Well, it is of no great consequence, at any rate.' She smiled back at me, closed my door, and a few moments later I heard her key turn in the lock."</p>
+
+                    <p>"Indeed," said Holmes. "Was it your custom always to lock yourselves in at night?"</p>
+
+                    <p>"Always."</p>
+
+                    <p>"And why?"</p>
+
+                    <p>"I think that I mentioned to you that the doctor kept a cheetah and a baboon. We had no feeling of security unless our doors were locked."</p>
+
+                    <p>"Quite so. Pray proceed with your statement."</p>
+
+                    <p>"I could not sleep that night. A vague feeling of impending misfortune impressed me. My sister and I, you will recollect, were twins, and you know how subtle are the links which bind two souls which are so closely allied. It was a wild night. The wind was howling outside, and the rain was beating and splashing against the windows. Suddenly, amid all the hubbub of the gale, there burst forth the wild scream of a terrified woman. I knew that it was my sister's voice. I sprang from my bed, wrapped a shawl round me, and rushed into the corridor. As I opened my door I seemed to hear a low whistle, such as my sister described, and a few moments later a clanging sound, as if a mass of metal had fallen. As I ran down the passage, my sister's door was unlocked, and revolved slowly upon its hinges. I stared at it horror-stricken, not knowing what was about to issue from it. By the light of the corridor-lamp I saw my sister appear at the opening, her face blanched with terror, her hands groping for help, her whole figure swaying to and fro like that of a drunkard. I ran to her and threw my arms round her, but at that moment her knees seemed to give way and she fell to the ground. She writhed as one who is in terrible pain, and her limbs were dreadfully convulsed. At first I thought that she had not recognised me, but as I bent over her she suddenly shrieked out in a voice which I shall never forget, 'Oh, my God! Helen! It was the band! The speckled band!' There was something else which she would fain have said, and she stabbed with her finger into the air in the direction of the doctor's room, but a fresh convulsion seized her and choked her words. I rushed out, calling loudly for my stepfather, and I met him hastening from his room in his dressing-gown. When he reached my sister's side she was unconscious, and though he poured brandy down her throat and sent for medical aid from the village, all efforts were in vain, for she slowly sank and died without having recovered her consciousness. Such was the dreadful end of my beloved sister."</p>
                 </div>
             </div>
         </div>
@@ -304,84 +376,18 @@
 
     <script>
         const chapters = [
-            {
-                icon: '🌟',
-                title: {
-                    de: 'Der magische Wald',
-                    en: 'The Magic Forest',
-                    es: 'El Bosque Mágico',
-                    fr: 'La Forêt Magique'
-                },
-                visual: 'visual-chapter-1'
-            },
-            {
-                icon: '🦉',
-                title: {
-                    de: 'Die sprechende Eule',
-                    en: 'The Speaking Owl',
-                    es: 'El Búho Parlante',
-                    fr: 'La Chouette Parlante'
-                },
-                visual: 'visual-chapter-2'
-            },
-            {
-                icon: '🌊',
-                title: {
-                    de: 'Der Kristallsee',
-                    en: 'The Crystal Lake',
-                    es: 'El Lago de Cristal',
-                    fr: 'Le Lac de Cristal'
-                },
-                visual: 'visual-chapter-3'
-            },
-            {
-                icon: '🌳',
-                title: {
-                    de: 'Das Geheimnis der Bäume',
-                    en: 'The Secret of the Trees',
-                    es: 'El Secreto de los Árboles',
-                    fr: 'Le Secret des Arbres'
-                },
-                visual: 'visual-chapter-4'
-            },
-            {
-                icon: '🏠',
-                title: {
-                    de: 'Die Rückkehr nach Hause',
-                    en: 'The Return Home',
-                    es: 'El Regreso a Casa',
-                    fr: 'Le Retour à la Maison'
-                },
-                visual: 'visual-chapter-5'
-            }
+            { id: 1, icon: '🌅', title: 'The Beginning' },
+            { id: 2, icon: '🔍', title: 'The Client' },
+            { id: 3, icon: '🐍', title: 'The Speckled Band' }
         ];
 
         let currentChapter = 0;
-        let currentLanguage = 'de';
 
-        // Scroll detection and visual switching
-        function updateVisualBasedOnScroll() {
-            const textSection = document.getElementById('textSection');
-            const chapters = document.querySelectorAll('.chapter');
-            const scrollTop = textSection.scrollTop;
+        // Update visual content
+        function updateVisual(chapterIndex) {
+            if (chapterIndex >= chapters.length) return;
             
-            let newChapter = 0;
-            
-            chapters.forEach((chapter, index) => {
-                const chapterTop = chapter.offsetTop - 200;
-                
-                if (scrollTop >= chapterTop) {
-                    newChapter = index;
-                }
-            });
-            
-            if (currentChapter !== newChapter) {
-                switchVisual(newChapter);
-                currentChapter = newChapter;
-            }
-        }
-
-        function switchVisual(chapterIndex) {
+            const chapter = chapters[chapterIndex];
             const visualSection = document.getElementById('visualSection');
             const visualContent = document.getElementById('visualContent');
             const visualIcon = visualContent.querySelector('.visual-icon');
@@ -392,187 +398,72 @@
             
             setTimeout(() => {
                 // Update visual content
-                visualIcon.textContent = chapters[chapterIndex].icon;
-                visualTitle.textContent = chapters[chapterIndex].title[currentLanguage];
+                visualIcon.textContent = chapter.icon;
+                visualTitle.textContent = chapter.title;
                 
                 // Update background
-                visualSection.className = `visual-section ${chapters[chapterIndex].visual}`;
+                visualSection.className = `visual-section visual-chapter-${chapter.id}`;
                 
                 // Remove changing animation
                 visualContent.classList.remove('changing');
             }, 400);
         }
 
-        // Add scroll event listener with throttling for better performance
-        let ticking = false;
-        function handleScroll() {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    updateVisualBasedOnScroll();
-                    handleMobileScroll();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }
-        
-        // Listen to scroll on the text section instead of window
-        const textSection = document.getElementById('textSection');
-        textSection.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', updateVisualBasedOnScroll);
-
-        // Mobile scroll effects
-        function handleMobileScroll() {
-            if (window.innerWidth <= 768) {
-                const visualSection = document.getElementById('visualSection');
-                const scrollTop = window.pageYOffset;
-                const visualHeight = visualSection.offsetHeight;
+        // Scroll detection and visual switching
+        function updateVisualBasedOnScroll() {
+            const textSection = document.getElementById('textSection');
+            const chapterElements = document.querySelectorAll('.chapter');
+            const scrollTop = textSection.scrollTop;
+            
+            let newChapter = 0;
+            
+            chapterElements.forEach((chapter, index) => {
+                const chapterTop = chapter.offsetTop - 200;
                 
-                if (scrollTop > visualHeight * 0.3) {
-                    visualSection.classList.add('fading');
-                } else {
-                    visualSection.classList.remove('fading');
+                if (scrollTop >= chapterTop) {
+                    newChapter = index;
                 }
-            }
-        }
-
-        const content = {
-            de: {
-                'chapter-1-title': 'Kapitel 1: Der magische Wald',
-                'chapter-1-content': `
-                    <p>Es war einmal ein kleines Mädchen namens Luna, das in einem Dorf am Rande eines großen, geheimnisvollen Waldes lebte. Die Dorfbewohner erzählten sich Geschichten über diesen Wald – Geschichten von sprechenden Tieren, glitzernden Pflanzen und magischen Kreaturen, die nur bei Mondschein zu sehen waren.</p>
-                    
-                    <p>Luna war acht Jahre alt und sehr neugierig. Jeden Tag schaute sie aus ihrem Fenster und betrachtete die hohen Bäume, die wie Wächter vor dem Dorf standen. Ihre Großmutter hatte ihr oft erzählt, dass der Wald voller Wunder sei, aber auch voller Geheimnisse, die nur die Mutigsten entdecken könnten.</p>
-                    
-                    <p>An einem warmen Sommerabend, als der Vollmond hell am Himmel strahlte, beschloss Luna, endlich herauszufinden, ob die Geschichten wahr waren. Sie packte ihre kleine Laterne, zog ihre warme Jacke an und schlich sich leise aus dem Haus, während ihre Eltern schliefen.</p>
-                    
-                    <p>Als sie den Waldrand erreichte, bemerkte sie sofort, dass etwas anders war. Die Blätter der Bäume schimmerten silbern im Mondlicht, und ein sanftes Summen lag in der Luft. Luna spürte, wie ihr Herz vor Aufregung schneller schlug.</p>
-                `,
-                'chapter-2-title': 'Kapitel 2: Die sprechende Eule',
-                'chapter-2-content': `
-                    <p>Kaum hatte Luna den ersten Schritt in den Wald getan, hörte sie eine melodische Stimme von oben: "Wer wagt es, zu dieser Stunde in unseren Wald zu kommen?" Luna blickte nach oben und sah eine wunderschöne Eule mit goldenen Federn auf einem Ast sitzen.</p>
-                    
-                    <p>"Ich bin Luna", sagte sie mutig, obwohl ihre Stimme leicht zitterte. "Ich möchte die Geheimnisse des Waldes entdecken." Die Eule neigte ihren Kopf und betrachtete das Mädchen mit ihren großen, weisen Augen.</p>
-                    
-                    <p>"Ich bin Sophia, die Hüterin der Waldgeheimnisse", erklärte die Eule. "Viele Menschen kommen hierher auf der Suche nach Magie, aber nur wenige haben ein reines Herz. Erzähl mir, Luna, warum suchst du die Magie?"</p>
-                    
-                    <p>Luna dachte einen Moment nach. "Ich möchte verstehen, wie wunderbar die Welt sein kann", antwortete sie ehrlich. "Und vielleicht kann ich lernen, anderen zu helfen." Sophia lächelte – oder zumindest glaubte Luna, ein Lächeln in den Augen der Eule zu sehen.</p>
-                `,
-                'chapter-3-title': 'Kapitel 3: Der Kristallsee',
-                'chapter-3-content': `
-                    <p>"Folge mir", sagte Sophia und breitete ihre prächtigen Flügel aus. Sie flog langsam voraus, damit Luna ihr zu Fuß folgen konnte. Der Pfad führte tiefer in den Wald hinein, vorbei an Bäumen, deren Rinde in sanften Farben leuchtete.</p>
-                    
-                    <p>Nach einer Weile erreichten sie eine Lichtung, in deren Mitte ein wunderschöner See lag. Das Wasser war so klar wie Kristall und reflektierte nicht nur den Mond, sondern auch Sterne, die Luna noch nie zuvor gesehen hatte. "Das ist der Kristallsee", erklärte Sophia. "Er zeigt die Träume und Wünsche aller, die reinen Herzens sind."</p>
-                    
-                    <p>Luna kniete sich an den Rand des Sees und blickte hinein. Zuerst sah sie nur ihr eigenes Spiegelbild, aber dann begannen sich Bilder zu formen. Sie sah sich selbst, wie sie kranken Tieren half, wie sie traurige Kinder zum Lachen brachte und wie sie ihrer Großmutter dabei half, den Garten zu pflegen.</p>
-                    
-                    <p>"Du hast wirklich ein besonderes Herz", sagte Sophia anerkennend. "Der See zeigt mir, dass du würdig bist, das größte Geheimnis des Waldes zu erfahren."</p>
-                `,
-                'chapter-4-title': 'Kapitel 4: Das Geheimnis der Bäume',
-                'chapter-4-content': `
-                    <p>Sophia führte Luna zu einem besonders alten und großen Baum am Rande der Lichtung. "Das ist der Herzbaum unseres Waldes", erklärte sie. "Er ist tausende Jahre alt und hütet die größte Magie von allen." Der Baum war so groß, dass Luna seinen Wipfel nicht sehen konnte, und seine Rinde schimmerte in allen Farben des Regenbogens.</p>
-                    
-                    <p>"Lege deine Hand auf seine Rinde", flüsterte Sophia. Luna tat wie geheißen und spürte sofort eine warme Energie durch ihren Körper fließen. Plötzlich konnte sie die Stimmen aller Lebewesen im Wald hören – die Blumen flüsterten sich Geheimnisse zu, die Käfer erzählten sich Witze, und die Bäume sangen leise Lieder.</p>
-                    
-                    <p>"Das ist die wahre Magie", erklärte Sophia. "Die Fähigkeit, mit allem Leben in Verbindung zu stehen und zu verstehen, dass wir alle miteinander verbunden sind. Diese Gabe wird dir helfen, anderen zu helfen und die Welt ein bisschen besser zu machen."</p>
-                    
-                    <p>Luna spürte, wie sich etwas in ihr veränderte. Sie fühlte sich mit dem ganzen Wald, ja mit der ganzen Welt verbunden. "Werde ich diese Gabe behalten?", fragte sie hoffnungsvoll.</p>
-                `,
-                'chapter-5-title': 'Kapitel 5: Die Rückkehr nach Hause',
-                'chapter-5-content': `
-                    <p>"Die Magie wird immer in dir sein", versicherte Sophia. "Aber sie wird nur dann stark sein, wenn du sie für gute Zwecke einsetzt. Hilf anderen, sei freundlich zu allen Lebewesen, und die Magie wird wachsen."</p>
-                    
-                    <p>Als der erste Sonnenstrahl durch die Bäume brach, wusste Luna, dass es Zeit war, nach Hause zu gehen. Sophia begleitete sie zum Waldrand, und alle Tiere des Waldes kamen, um sich zu verabschieden. Ein Reh berührte sanft ihre Hand, ein Schmetterling setzte sich auf ihre Schulter, und sogar die Blumen schienen sich zu ihr zu neigen.</p>
-                    
-                    <p>Zuhause angekommen, fand Luna ihre Eltern noch schlafend vor. Sie schlich sich leise in ihr Bett und dachte über das wunderbare Abenteuer nach. Als sie am nächsten Morgen aufwachte, fragte sie sich, ob alles nur ein Traum gewesen war.</p>
-                    
-                    <p>Aber dann hörte sie das leise Zwitschern der Vögel vor ihrem Fenster – und sie konnte verstehen, was sie sagten. Sie lächelte und wusste, dass das größte Abenteuer ihres Lebens gerade erst begonnen hatte. Von diesem Tag an half Luna allen Lebewesen, denen sie begegnete, und der magische Wald blieb für immer ihr besonderer, geheimer Ort.</p>
-                `
-            },
-            en: {
-                'chapter-1-title': 'Chapter 1: The Magic Forest',
-                'chapter-1-content': `
-                    <p>Once upon a time, there was a little girl named Luna who lived in a village on the edge of a large, mysterious forest. The villagers told stories about this forest – stories of talking animals, glittering plants, and magical creatures that could only be seen in moonlight.</p>
-                    
-                    <p>Luna was eight years old and very curious. Every day she looked out her window and watched the tall trees that stood like guardians before the village. Her grandmother had often told her that the forest was full of wonders, but also full of secrets that only the bravest could discover.</p>
-                    
-                    <p>On a warm summer evening, when the full moon shone bright in the sky, Luna decided to finally find out if the stories were true. She packed her little lantern, put on her warm jacket, and quietly snuck out of the house while her parents slept.</p>
-                    
-                    <p>When she reached the edge of the forest, she immediately noticed that something was different. The leaves of the trees shimmered silver in the moonlight, and a gentle humming filled the air. Luna felt her heart beat faster with excitement.</p>
-                `,
-                'chapter-2-title': 'Chapter 2: The Speaking Owl',
-                'chapter-2-content': `
-                    <p>As soon as Luna took her first step into the forest, she heard a melodic voice from above: "Who dares to enter our forest at this hour?" Luna looked up and saw a beautiful owl with golden feathers sitting on a branch.</p>
-                    
-                    <p>"I am Luna," she said bravely, although her voice trembled slightly. "I want to discover the secrets of the forest." The owl tilted her head and looked at the girl with her large, wise eyes.</p>
-                    
-                    <p>"I am Sophia, the guardian of the forest secrets," explained the owl. "Many people come here searching for magic, but only a few have a pure heart. Tell me, Luna, why do you seek magic?"</p>
-                    
-                    <p>Luna thought for a moment. "I want to understand how wonderful the world can be," she answered honestly. "And maybe I can learn to help others." Sophia smiled – or at least Luna thought she saw a smile in the owl's eyes.</p>
-                `
-            },
-            es: {
-                'chapter-1-title': 'Capítulo 1: El Bosque Mágico',
-                'chapter-1-content': `
-                    <p>Érase una vez una niña pequeña llamada Luna que vivía en un pueblo al borde de un gran bosque misterioso. Los aldeanos se contaban historias sobre este bosque: historias de animales parlantes, plantas brillantes y criaturas mágicas que solo se podían ver a la luz de la luna.</p>
-                    
-                    <p>Luna tenía ocho años y era muy curiosa. Todos los días miraba por su ventana y contemplaba los árboles altos que se alzaban como guardianes ante el pueblo. Su abuela le había contado a menudo que el bosque estaba lleno de maravillas, pero también lleno de secretos que solo los más valientes podrían descubrir.</p>
-                `,
-                'chapter-2-title': 'Capítulo 2: El Búho Parlante'
-            },
-            fr: {
-                'chapter-1-title': 'Chapitre 1: La Forêt Magique',
-                'chapter-1-content': `
-                    <p>Il était une fois une petite fille nommée Luna qui vivait dans un village au bord d'une grande forêt mystérieuse. Les villageois se racontaient des histoires sur cette forêt – des histoires d'animaux parlants, de plantes scintillantes et de créatures magiques qui ne pouvaient être vues qu'au clair de lune.</p>
-                    
-                    <p>Luna avait huit ans et était très curieuse. Chaque jour, elle regardait par sa fenêtre et observait les grands arbres qui se dressaient comme des gardiens devant le village. Sa grand-mère lui avait souvent dit que la forêt était pleine de merveilles, mais aussi pleine de secrets que seuls les plus courageux pourraient découvrir.</p>
-                `,
-                'chapter-2-title': 'Chapitre 2: La Chouette Parlante'
-            }
-        };
-
-        // Language switching functionality
-        const langBtns = document.querySelectorAll('.lang-btn');
-        langBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const lang = this.getAttribute('data-lang');
-                switchLanguage(lang);
-                
-                // Update active button
-                langBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
             });
-        });
-
-        function switchLanguage(lang) {
-            currentLanguage = lang;
             
-            // Update chapter titles and content
-            for (let i = 1; i <= 5; i++) {
-                const titleElement = document.getElementById(`chapter-${i}-title`);
-                const contentElement = document.getElementById(`chapter-${i}-content`);
-                
-                if (content[lang] && content[lang][`chapter-${i}-title`]) {
-                    titleElement.textContent = content[lang][`chapter-${i}-title`];
-                }
-                if (content[lang] && content[lang][`chapter-${i}-content`]) {
-                    contentElement.innerHTML = content[lang][`chapter-${i}-content`];
+            if (currentChapter !== newChapter) {
+                updateVisual(newChapter);
+                currentChapter = newChapter;
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Language switching (placeholder)
+            const langBtns = document.querySelectorAll('.lang-btn');
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    langBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Scroll detection
+            const textSection = document.getElementById('textSection');
+            let ticking = false;
+            
+            function handleScroll() {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        updateVisualBasedOnScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
             }
             
-            // Update visual title
-            const visualTitle = document.getElementById('visualTitle');
-            visualTitle.textContent = chapters[currentChapter].title[lang];
+            textSection.addEventListener('scroll', handleScroll);
+            window.addEventListener('resize', updateVisualBasedOnScroll);
         }
 
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            updateVisualBasedOnScroll();
-        });
-        
-        // Also initialize immediately
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            updateVisualBasedOnScroll();
+            setupEventListeners();
+            updateVisual(0);
         });
     </script>
 </body>
