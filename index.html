@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Das magische Abenteuer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn {
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            padding: 8px 12px;
+            user-select: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: #2c3e50;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .lang-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .lang-btn.active {
+            border-color: #4a90e2;
+            background: #4a90e2;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .visual-section {
+            flex: 0 0 50%;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .visual-content {
+            text-align: center;
+            color: white;
+            padding: 40px;
+            transform: scale(1);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .visual-content.changing {
+            transform: scale(0.8) rotate(5deg);
+            opacity: 0.7;
+        }
+
+        .visual-icon {
+            font-size: 120px;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .visual-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .text-section {
+            flex: 1;
+            background-color: #f8f6f0;
+            padding: 80px 60px 60px;
+            position: relative;
+            height: 100vh;
+            overflow-y: scroll;
+        }
+
+        .chapter {
+            margin-bottom: 100px;
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #2c3e50;
+            opacity: 1;
+        }
+
+        .chapter-title {
+            font-size: 2.5em;
+            color: #34495e;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .chapter-content {
+            text-align: justify;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .chapter-content p {
+            margin-bottom: 20px;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .language-switcher {
+                top: 10px;
+                left: 10px;
+                transform: none;
+                padding: 8px;
+            }
+
+            .lang-btn {
+                font-size: 12px;
+                padding: 6px 10px;
+                min-width: 28px;
+            }
+
+            .visual-section {
+                position: relative;
+                flex: none;
+                width: 100%;
+                height: 60vh;
+                transition: all 0.6s ease;
+            }
+
+            .visual-section.fading {
+                height: 20vh;
+                opacity: 0.3;
+            }
+
+            .text-section {
+                flex: none;
+                width: 100%;
+                padding: 40px 30px;
+                background: linear-gradient(to bottom, transparent 0%, #f8f6f0 20%, #f8f6f0 100%);
+            }
+
+            .chapter-title {
+                font-size: 2em;
+            }
+
+            .visual-content {
+                padding: 20px;
+            }
+
+            .visual-icon {
+                font-size: 80px;
+            }
+
+            .visual-title {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Chapter-specific visual styles */
+        .visual-chapter-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .visual-chapter-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .visual-chapter-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .visual-chapter-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .visual-chapter-5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <div class="container">
+        <div class="visual-section visual-chapter-1" id="visualSection">
+            <div class="visual-content" id="visualContent">
+                <div class="visual-icon">🌟</div>
+                <div class="visual-title" id="visualTitle">Der magische Wald</div>
+            </div>
+        </div>
+
+        <div class="text-section" id="textSection">
+            <div class="chapter" id="chapter-1">
+                <h2 class="chapter-title" id="chapter-1-title">Kapitel 1: Der magische Wald</h2>
+                <div class="chapter-content" id="chapter-1-content">
+                    <p>Es war einmal ein kleines Mädchen namens Luna, das in einem Dorf am Rande eines großen, geheimnisvollen Waldes lebte. Die Dorfbewohner erzählten sich Geschichten über diesen Wald – Geschichten von sprechenden Tieren, glitzernden Pflanzen und magischen Kreaturen, die nur bei Mondschein zu sehen waren.</p>
+                    
+                    <p>Luna war acht Jahre alt und sehr neugierig. Jeden Tag schaute sie aus ihrem Fenster und betrachtete die hohen Bäume, die wie Wächter vor dem Dorf standen. Ihre Großmutter hatte ihr oft erzählt, dass der Wald voller Wunder sei, aber auch voller Geheimnisse, die nur die Mutigsten entdecken könnten.</p>
+                    
+                    <p>An einem warmen Sommerabend, als der Vollmond hell am Himmel strahlte, beschloss Luna, endlich herauszufinden, ob die Geschichten wahr waren. Sie packte ihre kleine Laterne, zog ihre warme Jacke an und schlich sich leise aus dem Haus, während ihre Eltern schliefen.</p>
+                    
+                    <p>Als sie den Waldrand erreichte, bemerkte sie sofort, dass etwas anders war. Die Blätter der Bäume schimmerten silbern im Mondlicht, und ein sanftes Summen lag in der Luft. Luna spürte, wie ihr Herz vor Aufregung schneller schlug.</p>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter-2">
+                <h2 class="chapter-title" id="chapter-2-title">Kapitel 2: Die sprechende Eule</h2>
+                <div class="chapter-content" id="chapter-2-content">
+                    <p>Kaum hatte Luna den ersten Schritt in den Wald getan, hörte sie eine melodische Stimme von oben: "Wer wagt es, zu dieser Stunde in unseren Wald zu kommen?" Luna blickte nach oben und sah eine wunderschöne Eule mit goldenen Federn auf einem Ast sitzen.</p>
+                    
+                    <p>"Ich bin Luna", sagte sie mutig, obwohl ihre Stimme leicht zitterte. "Ich möchte die Geheimnisse des Waldes entdecken." Die Eule neigte ihren Kopf und betrachtete das Mädchen mit ihren großen, weisen Augen.</p>
+                    
+                    <p>"Ich bin Sophia, die Hüterin der Waldgeheimnisse", erklärte die Eule. "Viele Menschen kommen hierher auf der Suche nach Magie, aber nur wenige haben ein reines Herz. Erzähl mir, Luna, warum suchst du die Magie?"</p>
+                    
+                    <p>Luna dachte einen Moment nach. "Ich möchte verstehen, wie wunderbar die Welt sein kann", antwortete sie ehrlich. "Und vielleicht kann ich lernen, anderen zu helfen." Sophia lächelte – oder zumindest glaubte Luna, ein Lächeln in den Augen der Eule zu sehen.</p>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter-3">
+                <h2 class="chapter-title" id="chapter-3-title">Kapitel 3: Der Kristallsee</h2>
+                <div class="chapter-content" id="chapter-3-content">
+                    <p>"Folge mir", sagte Sophia und breitete ihre prächtigen Flügel aus. Sie flog langsam voraus, damit Luna ihr zu Fuß folgen konnte. Der Pfad führte tiefer in den Wald hinein, vorbei an Bäumen, deren Rinde in sanften Farben leuchtete.</p>
+                    
+                    <p>Nach einer Weile erreichten sie eine Lichtung, in deren Mitte ein wunderschöner See lag. Das Wasser war so klar wie Kristall und reflektierte nicht nur den Mond, sondern auch Sterne, die Luna noch nie zuvor gesehen hatte. "Das ist der Kristallsee", erklärte Sophia. "Er zeigt die Träume und Wünsche aller, die reinen Herzens sind."</p>
+                    
+                    <p>Luna kniete sich an den Rand des Sees und blickte hinein. Zuerst sah sie nur ihr eigenes Spiegelbild, aber dann begannen sich Bilder zu formen. Sie sah sich selbst, wie sie kranken Tieren half, wie sie traurige Kinder zum Lachen brachte und wie sie ihrer Großmutter dabei half, den Garten zu pflegen.</p>
+                    
+                    <p>"Du hast wirklich ein besonderes Herz", sagte Sophia anerkennend. "Der See zeigt mir, dass du würdig bist, das größte Geheimnis des Waldes zu erfahren."</p>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter-4">
+                <h2 class="chapter-title" id="chapter-4-title">Kapitel 4: Das Geheimnis der Bäume</h2>
+                <div class="chapter-content" id="chapter-4-content">
+                    <p>Sophia führte Luna zu einem besonders alten und großen Baum am Rande der Lichtung. "Das ist der Herzbaum unseres Waldes", erklärte sie. "Er ist tausende Jahre alt und hütet die größte Magie von allen." Der Baum war so groß, dass Luna seinen Wipfel nicht sehen konnte, und seine Rinde schimmerte in allen Farben des Regenbogens.</p>
+                    
+                    <p>"Lege deine Hand auf seine Rinde", flüsterte Sophia. Luna tat wie geheißen und spürte sofort eine warme Energie durch ihren Körper fließen. Plötzlich konnte sie die Stimmen aller Lebewesen im Wald hören – die Blumen flüsterten sich Geheimnisse zu, die Käfer erzählten sich Witze, und die Bäume sangen leise Lieder.</p>
+                    
+                    <p>"Das ist die wahre Magie", erklärte Sophia. "Die Fähigkeit, mit allem Leben in Verbindung zu stehen und zu verstehen, dass wir alle miteinander verbunden sind. Diese Gabe wird dir helfen, anderen zu helfen und die Welt ein bisschen besser zu machen."</p>
+                    
+                    <p>Luna spürte, wie sich etwas in ihr veränderte. Sie fühlte sich mit dem ganzen Wald, ja mit der ganzen Welt verbunden. "Werde ich diese Gabe behalten?", fragte sie hoffnungsvoll.</p>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter-5">
+                <h2 class="chapter-title" id="chapter-5-title">Kapitel 5: Die Rückkehr nach Hause</h2>
+                <div class="chapter-content" id="chapter-5-content">
+                    <p>"Die Magie wird immer in dir sein", versicherte Sophia. "Aber sie wird nur dann stark sein, wenn du sie für gute Zwecke einsetzt. Hilf anderen, sei freundlich zu allen Lebewesen, und die Magie wird wachsen."</p>
+                    
+                    <p>Als der erste Sonnenstrahl durch die Bäume brach, wusste Luna, dass es Zeit war, nach Hause zu gehen. Sophia begleitete sie zum Waldrand, und alle Tiere des Waldes kamen, um sich zu verabschieden. Ein Reh berührte sanft ihre Hand, ein Schmetterling setzte sich auf ihre Schulter, und sogar die Blumen schienen sich zu ihr zu neigen.</p>
+                    
+                    <p>Zuhause angekommen, fand Luna ihre Eltern noch schlafend vor. Sie schlich sich leise in ihr Bett und dachte über das wunderbare Abenteuer nach. Als sie am nächsten Morgen aufwachte, fragte sie sich, ob alles nur ein Traum gewesen war.</p>
+                    
+                    <p>Aber dann hörte sie das leise Zwitschern der Vögel vor ihrem Fenster – und sie konnte verstehen, was sie sagten. Sie lächelte und wusste, dass das größte Abenteuer ihres Lebens gerade erst begonnen hatte. Von diesem Tag an half Luna allen Lebewesen, denen sie begegnete, und der magische Wald blieb für immer ihr besonderer, geheimer Ort.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chapters = [
+            {
+                icon: '🌟',
+                title: {
+                    de: 'Der magische Wald',
+                    en: 'The Magic Forest',
+                    es: 'El Bosque Mágico',
+                    fr: 'La Forêt Magique'
+                },
+                visual: 'visual-chapter-1'
+            },
+            {
+                icon: '🦉',
+                title: {
+                    de: 'Die sprechende Eule',
+                    en: 'The Speaking Owl',
+                    es: 'El Búho Parlante',
+                    fr: 'La Chouette Parlante'
+                },
+                visual: 'visual-chapter-2'
+            },
+            {
+                icon: '🌊',
+                title: {
+                    de: 'Der Kristallsee',
+                    en: 'The Crystal Lake',
+                    es: 'El Lago de Cristal',
+                    fr: 'Le Lac de Cristal'
+                },
+                visual: 'visual-chapter-3'
+            },
+            {
+                icon: '🌳',
+                title: {
+                    de: 'Das Geheimnis der Bäume',
+                    en: 'The Secret of the Trees',
+                    es: 'El Secreto de los Árboles',
+                    fr: 'Le Secret des Arbres'
+                },
+                visual: 'visual-chapter-4'
+            },
+            {
+                icon: '🏠',
+                title: {
+                    de: 'Die Rückkehr nach Hause',
+                    en: 'The Return Home',
+                    es: 'El Regreso a Casa',
+                    fr: 'Le Retour à la Maison'
+                },
+                visual: 'visual-chapter-5'
+            }
+        ];
+
+        let currentChapter = 0;
+        let currentLanguage = 'de';
+
+        // Scroll detection and visual switching
+        function updateVisualBasedOnScroll() {
+            const textSection = document.getElementById('textSection');
+            const chapters = document.querySelectorAll('.chapter');
+            const scrollTop = textSection.scrollTop;
+            
+            let newChapter = 0;
+            
+            chapters.forEach((chapter, index) => {
+                const chapterTop = chapter.offsetTop - 200;
+                
+                if (scrollTop >= chapterTop) {
+                    newChapter = index;
+                }
+            });
+            
+            if (currentChapter !== newChapter) {
+                switchVisual(newChapter);
+                currentChapter = newChapter;
+            }
+        }
+
+        function switchVisual(chapterIndex) {
+            const visualSection = document.getElementById('visualSection');
+            const visualContent = document.getElementById('visualContent');
+            const visualIcon = visualContent.querySelector('.visual-icon');
+            const visualTitle = document.getElementById('visualTitle');
+            
+            // Add changing animation
+            visualContent.classList.add('changing');
+            
+            setTimeout(() => {
+                // Update visual content
+                visualIcon.textContent = chapters[chapterIndex].icon;
+                visualTitle.textContent = chapters[chapterIndex].title[currentLanguage];
+                
+                // Update background
+                visualSection.className = `visual-section ${chapters[chapterIndex].visual}`;
+                
+                // Remove changing animation
+                visualContent.classList.remove('changing');
+            }, 400);
+        }
+
+        // Add scroll event listener with throttling for better performance
+        let ticking = false;
+        function handleScroll() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateVisualBasedOnScroll();
+                    handleMobileScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        
+        // Listen to scroll on the text section instead of window
+        const textSection = document.getElementById('textSection');
+        textSection.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', updateVisualBasedOnScroll);
+
+        // Mobile scroll effects
+        function handleMobileScroll() {
+            if (window.innerWidth <= 768) {
+                const visualSection = document.getElementById('visualSection');
+                const scrollTop = window.pageYOffset;
+                const visualHeight = visualSection.offsetHeight;
+                
+                if (scrollTop > visualHeight * 0.3) {
+                    visualSection.classList.add('fading');
+                } else {
+                    visualSection.classList.remove('fading');
+                }
+            }
+        }
+
+        const content = {
+            de: {
+                'chapter-1-title': 'Kapitel 1: Der magische Wald',
+                'chapter-1-content': `
+                    <p>Es war einmal ein kleines Mädchen namens Luna, das in einem Dorf am Rande eines großen, geheimnisvollen Waldes lebte. Die Dorfbewohner erzählten sich Geschichten über diesen Wald – Geschichten von sprechenden Tieren, glitzernden Pflanzen und magischen Kreaturen, die nur bei Mondschein zu sehen waren.</p>
+                    
+                    <p>Luna war acht Jahre alt und sehr neugierig. Jeden Tag schaute sie aus ihrem Fenster und betrachtete die hohen Bäume, die wie Wächter vor dem Dorf standen. Ihre Großmutter hatte ihr oft erzählt, dass der Wald voller Wunder sei, aber auch voller Geheimnisse, die nur die Mutigsten entdecken könnten.</p>
+                    
+                    <p>An einem warmen Sommerabend, als der Vollmond hell am Himmel strahlte, beschloss Luna, endlich herauszufinden, ob die Geschichten wahr waren. Sie packte ihre kleine Laterne, zog ihre warme Jacke an und schlich sich leise aus dem Haus, während ihre Eltern schliefen.</p>
+                    
+                    <p>Als sie den Waldrand erreichte, bemerkte sie sofort, dass etwas anders war. Die Blätter der Bäume schimmerten silbern im Mondlicht, und ein sanftes Summen lag in der Luft. Luna spürte, wie ihr Herz vor Aufregung schneller schlug.</p>
+                `,
+                'chapter-2-title': 'Kapitel 2: Die sprechende Eule',
+                'chapter-2-content': `
+                    <p>Kaum hatte Luna den ersten Schritt in den Wald getan, hörte sie eine melodische Stimme von oben: "Wer wagt es, zu dieser Stunde in unseren Wald zu kommen?" Luna blickte nach oben und sah eine wunderschöne Eule mit goldenen Federn auf einem Ast sitzen.</p>
+                    
+                    <p>"Ich bin Luna", sagte sie mutig, obwohl ihre Stimme leicht zitterte. "Ich möchte die Geheimnisse des Waldes entdecken." Die Eule neigte ihren Kopf und betrachtete das Mädchen mit ihren großen, weisen Augen.</p>
+                    
+                    <p>"Ich bin Sophia, die Hüterin der Waldgeheimnisse", erklärte die Eule. "Viele Menschen kommen hierher auf der Suche nach Magie, aber nur wenige haben ein reines Herz. Erzähl mir, Luna, warum suchst du die Magie?"</p>
+                    
+                    <p>Luna dachte einen Moment nach. "Ich möchte verstehen, wie wunderbar die Welt sein kann", antwortete sie ehrlich. "Und vielleicht kann ich lernen, anderen zu helfen." Sophia lächelte – oder zumindest glaubte Luna, ein Lächeln in den Augen der Eule zu sehen.</p>
+                `,
+                'chapter-3-title': 'Kapitel 3: Der Kristallsee',
+                'chapter-3-content': `
+                    <p>"Folge mir", sagte Sophia und breitete ihre prächtigen Flügel aus. Sie flog langsam voraus, damit Luna ihr zu Fuß folgen konnte. Der Pfad führte tiefer in den Wald hinein, vorbei an Bäumen, deren Rinde in sanften Farben leuchtete.</p>
+                    
+                    <p>Nach einer Weile erreichten sie eine Lichtung, in deren Mitte ein wunderschöner See lag. Das Wasser war so klar wie Kristall und reflektierte nicht nur den Mond, sondern auch Sterne, die Luna noch nie zuvor gesehen hatte. "Das ist der Kristallsee", erklärte Sophia. "Er zeigt die Träume und Wünsche aller, die reinen Herzens sind."</p>
+                    
+                    <p>Luna kniete sich an den Rand des Sees und blickte hinein. Zuerst sah sie nur ihr eigenes Spiegelbild, aber dann begannen sich Bilder zu formen. Sie sah sich selbst, wie sie kranken Tieren half, wie sie traurige Kinder zum Lachen brachte und wie sie ihrer Großmutter dabei half, den Garten zu pflegen.</p>
+                    
+                    <p>"Du hast wirklich ein besonderes Herz", sagte Sophia anerkennend. "Der See zeigt mir, dass du würdig bist, das größte Geheimnis des Waldes zu erfahren."</p>
+                `,
+                'chapter-4-title': 'Kapitel 4: Das Geheimnis der Bäume',
+                'chapter-4-content': `
+                    <p>Sophia führte Luna zu einem besonders alten und großen Baum am Rande der Lichtung. "Das ist der Herzbaum unseres Waldes", erklärte sie. "Er ist tausende Jahre alt und hütet die größte Magie von allen." Der Baum war so groß, dass Luna seinen Wipfel nicht sehen konnte, und seine Rinde schimmerte in allen Farben des Regenbogens.</p>
+                    
+                    <p>"Lege deine Hand auf seine Rinde", flüsterte Sophia. Luna tat wie geheißen und spürte sofort eine warme Energie durch ihren Körper fließen. Plötzlich konnte sie die Stimmen aller Lebewesen im Wald hören – die Blumen flüsterten sich Geheimnisse zu, die Käfer erzählten sich Witze, und die Bäume sangen leise Lieder.</p>
+                    
+                    <p>"Das ist die wahre Magie", erklärte Sophia. "Die Fähigkeit, mit allem Leben in Verbindung zu stehen und zu verstehen, dass wir alle miteinander verbunden sind. Diese Gabe wird dir helfen, anderen zu helfen und die Welt ein bisschen besser zu machen."</p>
+                    
+                    <p>Luna spürte, wie sich etwas in ihr veränderte. Sie fühlte sich mit dem ganzen Wald, ja mit der ganzen Welt verbunden. "Werde ich diese Gabe behalten?", fragte sie hoffnungsvoll.</p>
+                `,
+                'chapter-5-title': 'Kapitel 5: Die Rückkehr nach Hause',
+                'chapter-5-content': `
+                    <p>"Die Magie wird immer in dir sein", versicherte Sophia. "Aber sie wird nur dann stark sein, wenn du sie für gute Zwecke einsetzt. Hilf anderen, sei freundlich zu allen Lebewesen, und die Magie wird wachsen."</p>
+                    
+                    <p>Als der erste Sonnenstrahl durch die Bäume brach, wusste Luna, dass es Zeit war, nach Hause zu gehen. Sophia begleitete sie zum Waldrand, und alle Tiere des Waldes kamen, um sich zu verabschieden. Ein Reh berührte sanft ihre Hand, ein Schmetterling setzte sich auf ihre Schulter, und sogar die Blumen schienen sich zu ihr zu neigen.</p>
+                    
+                    <p>Zuhause angekommen, fand Luna ihre Eltern noch schlafend vor. Sie schlich sich leise in ihr Bett und dachte über das wunderbare Abenteuer nach. Als sie am nächsten Morgen aufwachte, fragte sie sich, ob alles nur ein Traum gewesen war.</p>
+                    
+                    <p>Aber dann hörte sie das leise Zwitschern der Vögel vor ihrem Fenster – und sie konnte verstehen, was sie sagten. Sie lächelte und wusste, dass das größte Abenteuer ihres Lebens gerade erst begonnen hatte. Von diesem Tag an half Luna allen Lebewesen, denen sie begegnete, und der magische Wald blieb für immer ihr besonderer, geheimer Ort.</p>
+                `
+            },
+            en: {
+                'chapter-1-title': 'Chapter 1: The Magic Forest',
+                'chapter-1-content': `
+                    <p>Once upon a time, there was a little girl named Luna who lived in a village on the edge of a large, mysterious forest. The villagers told stories about this forest – stories of talking animals, glittering plants, and magical creatures that could only be seen in moonlight.</p>
+                    
+                    <p>Luna was eight years old and very curious. Every day she looked out her window and watched the tall trees that stood like guardians before the village. Her grandmother had often told her that the forest was full of wonders, but also full of secrets that only the bravest could discover.</p>
+                    
+                    <p>On a warm summer evening, when the full moon shone bright in the sky, Luna decided to finally find out if the stories were true. She packed her little lantern, put on her warm jacket, and quietly snuck out of the house while her parents slept.</p>
+                    
+                    <p>When she reached the edge of the forest, she immediately noticed that something was different. The leaves of the trees shimmered silver in the moonlight, and a gentle humming filled the air. Luna felt her heart beat faster with excitement.</p>
+                `,
+                'chapter-2-title': 'Chapter 2: The Speaking Owl',
+                'chapter-2-content': `
+                    <p>As soon as Luna took her first step into the forest, she heard a melodic voice from above: "Who dares to enter our forest at this hour?" Luna looked up and saw a beautiful owl with golden feathers sitting on a branch.</p>
+                    
+                    <p>"I am Luna," she said bravely, although her voice trembled slightly. "I want to discover the secrets of the forest." The owl tilted her head and looked at the girl with her large, wise eyes.</p>
+                    
+                    <p>"I am Sophia, the guardian of the forest secrets," explained the owl. "Many people come here searching for magic, but only a few have a pure heart. Tell me, Luna, why do you seek magic?"</p>
+                    
+                    <p>Luna thought for a moment. "I want to understand how wonderful the world can be," she answered honestly. "And maybe I can learn to help others." Sophia smiled – or at least Luna thought she saw a smile in the owl's eyes.</p>
+                `
+            },
+            es: {
+                'chapter-1-title': 'Capítulo 1: El Bosque Mágico',
+                'chapter-1-content': `
+                    <p>Érase una vez una niña pequeña llamada Luna que vivía en un pueblo al borde de un gran bosque misterioso. Los aldeanos se contaban historias sobre este bosque: historias de animales parlantes, plantas brillantes y criaturas mágicas que solo se podían ver a la luz de la luna.</p>
+                    
+                    <p>Luna tenía ocho años y era muy curiosa. Todos los días miraba por su ventana y contemplaba los árboles altos que se alzaban como guardianes ante el pueblo. Su abuela le había contado a menudo que el bosque estaba lleno de maravillas, pero también lleno de secretos que solo los más valientes podrían descubrir.</p>
+                `,
+                'chapter-2-title': 'Capítulo 2: El Búho Parlante'
+            },
+            fr: {
+                'chapter-1-title': 'Chapitre 1: La Forêt Magique',
+                'chapter-1-content': `
+                    <p>Il était une fois une petite fille nommée Luna qui vivait dans un village au bord d'une grande forêt mystérieuse. Les villageois se racontaient des histoires sur cette forêt – des histoires d'animaux parlants, de plantes scintillantes et de créatures magiques qui ne pouvaient être vues qu'au clair de lune.</p>
+                    
+                    <p>Luna avait huit ans et était très curieuse. Chaque jour, elle regardait par sa fenêtre et observait les grands arbres qui se dressaient comme des gardiens devant le village. Sa grand-mère lui avait souvent dit que la forêt était pleine de merveilles, mais aussi pleine de secrets que seuls les plus courageux pourraient découvrir.</p>
+                `,
+                'chapter-2-title': 'Chapitre 2: La Chouette Parlante'
+            }
+        };
+
+        // Language switching functionality
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                switchLanguage(lang);
+                
+                // Update active button
+                langBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update chapter titles and content
+            for (let i = 1; i <= 5; i++) {
+                const titleElement = document.getElementById(`chapter-${i}-title`);
+                const contentElement = document.getElementById(`chapter-${i}-content`);
+                
+                if (content[lang] && content[lang][`chapter-${i}-title`]) {
+                    titleElement.textContent = content[lang][`chapter-${i}-title`];
+                }
+                if (content[lang] && content[lang][`chapter-${i}-content`]) {
+                    contentElement.innerHTML = content[lang][`chapter-${i}-content`];
+                }
+            }
+            
+            // Update visual title
+            const visualTitle = document.getElementById('visualTitle');
+            visualTitle.textContent = chapters[currentChapter].title[lang];
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            updateVisualBasedOnScroll();
+        });
+        
+        // Also initialize immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            updateVisualBasedOnScroll();
+        });
+    </script>
+</body>
+</html>
